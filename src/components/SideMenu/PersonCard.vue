@@ -1,10 +1,7 @@
 <template>
     <div class="person">
         <div class="person__photo">
-            <img
-                :src="person.picture"
-                alt="photo"
-            />
+            <img :src="person.picture" alt="photo" />
         </div>
         <div class="person__info">
             <div class="person__info-name">

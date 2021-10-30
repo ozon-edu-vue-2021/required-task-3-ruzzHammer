@@ -1,22 +1,22 @@
 <template>
     <div id="app">
         <div class="office">
-            <Map />
+            <MapComp />
             <SideMenu />
         </div>
     </div>
 </template>
 
 <script>
-import Map from "./components/Map.vue";
-import SideMenu from "./components/SideMenu.vue";
+import MapComp from './components/MapComp.vue';
+import SideMenu from './components/SideMenu.vue';
 
 export default {
-  name: "App",
-  components: {
-    Map,
-    SideMenu,
-  },
+    name: 'App',
+    components: {
+        MapComp,
+        SideMenu,
+    },
 };
 </script>
 
