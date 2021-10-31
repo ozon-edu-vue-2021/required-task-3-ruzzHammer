@@ -80,6 +80,11 @@ export default {
     mounted() {
         this.makeChart();
     },
+    updated() {
+        if (this.isUserOpened === false) {
+            this.makeChart();
+        }
+    },
     methods: {
         loadLegend() {
             this.legend = legend;

@@ -67,7 +67,6 @@ export default {
             this.$emit('table', id);
         },
         hideInfo() {
-            console.log('hi');
             this.$emit('update:isUserOpened', false);
         },
     },
