@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <div class="office">
-            <MapComp />
-            <SideMenu />
+            <MapComp @table="getPerson" :isUserOpened.sync="isUserOpened" />
+            <SideMenu :person="currPerson" :isUserOpened.sync="isUserOpened" />
         </div>
     </div>
 </template>
@@ -10,12 +10,26 @@
 <script>
 import MapComp from './components/MapComp.vue';
 import SideMenu from './components/SideMenu.vue';
+import persons from '@/assets/data/people.json';
 
 export default {
     name: 'App',
+    data() {
+        return {
+            persons: persons,
+            currPerson: null,
+            isUserOpened: false,
+        };
+    },
     components: {
         MapComp,
         SideMenu,
+    },
+    methods: {
+        getPerson(id) {
+            this.currPerson = persons.find((person) => person.tableId === id);
+            this.isUserOpened = true;
+        },
     },
 };
 </script>

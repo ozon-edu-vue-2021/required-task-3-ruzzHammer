@@ -8,7 +8,10 @@
                 <b>{{ person.name }} ({{ person.age }})</b>
             </div>
 
-            <div class="person__info-email">Почта: {{ person.email }}</div>
+            <div class="person__info-email">
+                Почта:
+                <a :href="`mailto:${person.email}`">{{ person.email }}</a>
+            </div>
             <div class="person__info-email">
                 Дата регистрации: {{ formatedDate }}
             </div>
@@ -18,6 +21,8 @@
 </template>
 
 <script>
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 export default {
     props: {
         person: {
@@ -27,7 +32,9 @@ export default {
     },
     computed: {
         formatedDate() {
-            return this.person.registered;
+            return format(new Date(this.person.registered), 'd MMMM, yyyy', {
+                locale: ru,
+            });
         },
     },
 };

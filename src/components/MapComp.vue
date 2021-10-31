@@ -47,6 +47,7 @@ export default {
                     )
                     .attr('id', table._id)
                     .classed('employer-place', true);
+
                 svgTable
                     .append('g')
                     .attr('transform', `rotate(${table.rotate || 0})`)
@@ -56,8 +57,18 @@ export default {
                         'fill',
                         legend.find((item) => item.group_id === table.group_id)
                             ?.color ?? 'transparent'
-                    );
+                    )
+                    .on('click', () => {
+                        this.passTableID(table._id);
+                    });
             });
+        },
+        passTableID(id) {
+            this.$emit('table', id);
+        },
+        hideInfo() {
+            console.log('hi');
+            this.$emit('update:isUserOpened', false);
         },
     },
     mounted() {
@@ -69,6 +80,21 @@ export default {
         if (this.g) {
             this.drawTables();
         } else console.log('ERROR');
+
+        document.body.addEventListener('click', (e) => {
+            if (
+                !(
+                    e.target.classList.contains('employer-place') ||
+                    e.target.closest('.employer-place')
+                ) &&
+                !(
+                    e.target.classList.contains('.person') ||
+                    e.target.closest('.person')
+                )
+            ) {
+                this.hideInfo();
+            }
+        });
     },
 };
 </script>
