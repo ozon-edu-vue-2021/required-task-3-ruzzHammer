@@ -2,31 +2,26 @@
   {
     "group_id": 0,
     "color": "seagreen",
-    "text": "ГринТим",
-    "counter": 7
+    "text": "ГринТим"
   },
   {
     "group_id": 1,
     "color": "steelblue",
-    "text": "БлюТим",
-    "counter": 9
+    "text": "БлюТим"
   },
   {
     "group_id": 2,
     "color": "firebrick",
-    "text": "РедТим",
-    "counter": 5
+    "text": "РедТим"
   },
   {
     "group_id": 3,
     "color": "deeppink",
-    "text": "ПинкТим",
-    "counter": 6
+    "text": "ПинкТим"
   },
   {
     "group_id": 4,
     "color": "black",
-    "text": "БлэкТим",
-    "counter": 1
+    "text": "БлэкТим"
   }
 ]

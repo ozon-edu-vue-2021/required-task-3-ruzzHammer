@@ -24,7 +24,7 @@
                                 :key="index"
                                 :color="item.color"
                                 :text="item.text"
-                                :counter="item.counter"
+                                :counter="counter[index]"
                                 class="legend__item"
                             />
                         </Draggable>
@@ -49,6 +49,7 @@ import LegendItem from './SideMenu/LegendItem.vue';
 import PersonCard from './SideMenu/PersonCard.vue';
 
 import legend from '@/assets/data/legend.json';
+import tables from '@/assets/data/tables.json';
 import Draggable from 'vuedraggable';
 import { Pie } from 'vue-chartjs';
 
@@ -72,10 +73,12 @@ export default {
     data() {
         return {
             legend: [],
+            counter: {},
         };
     },
     created() {
         this.loadLegend();
+        this.countTeamMembers();
     },
     mounted() {
         this.makeChart();
@@ -89,6 +92,15 @@ export default {
         loadLegend() {
             this.legend = legend;
         },
+        countTeamMembers() {
+            tables.forEach((table) => {
+                if (this.counter[table.group_id]) {
+                    this.counter[table.group_id]++;
+                } else {
+                    this.counter[table.group_id] = 1;
+                }
+            });
+        },
         closeProfile() {
             this.$emit('update:isUserOpened', false);
         },
@@ -101,9 +113,7 @@ export default {
                         backgroundColor: this.legend.map(
                             (legendItem) => legendItem.color
                         ),
-                        data: this.legend.map(
-                            (legendItem) => legendItem.counter
-                        ),
+                        data: Object.values(this.counter).map((count) => count),
                     },
                 ],
             };
