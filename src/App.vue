@@ -59,12 +59,13 @@ h3 {
 
 .office {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr auto;
     border-radius: 6px;
     border: 1px solid #ccd8e4;
     height: 100%;
     background: white;
     max-width: 1500px;
     margin: 0 auto;
+    transition: 0.2s ease-in;
 }
 </style>

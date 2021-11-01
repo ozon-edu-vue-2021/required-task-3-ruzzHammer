@@ -1,5 +1,5 @@
 <template>
-    <div class="menu">
+    <div :class="[{ 'menu--ext': isUserOpened }, 'menu']">
         <div class="toolbar">
             <div class="toolbar__header">
                 <template v-if="!isUserOpened">
@@ -133,6 +133,12 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 320px;
+    transition: 0.2s ease;
+}
+
+.menu--ext {
+    width: 400px;
 }
 
 .toolbar {
@@ -207,6 +213,11 @@ h3 {
 
 .content .legend .legend__items .legend__item.sortable-chosen {
     opacity: 25%;
+}
+
+.content .legend .legend__chart {
+    max-width: 270px;
+    margin: 0 auto;
 }
 
 .content .legend .legend--empty {
