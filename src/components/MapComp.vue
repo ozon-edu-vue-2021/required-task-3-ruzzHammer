@@ -14,7 +14,7 @@
 <script>
 import MapSVG from '@/assets/images/map.svg';
 import TableSVG from '@/assets/images/workPlace.svg';
-import * as d3 from 'd3';
+import { select } from 'd3';
 import tables from '@/assets/data/tables.json';
 import legend from '@/assets/data/legend.json';
 
@@ -27,14 +27,14 @@ export default {
         return {
             isLoading: false,
             svg: null,
-            g: null,
+            svgGroup: null,
             tables: [],
             tableSVG: null,
         };
     },
     methods: {
         drawTables() {
-            const svgTablesGroup = this.g
+            const svgTablesGroup = this.svgGroup
                 .append('g')
                 .classed('groupPlaces', true);
 
@@ -71,12 +71,12 @@ export default {
         },
     },
     mounted() {
-        this.svg = d3.select(this.$refs.svg);
-        this.g = this.svg.select('g');
-        this.tableSVG = d3.select(this.$refs.table);
+        this.svg = select(this.$refs.svg);
+        this.svgGroup = this.svg.select('g');
+        this.tableSVG = select(this.$refs.table);
         this.tables = tables;
 
-        if (this.g) {
+        if (this.svgGroup) {
             this.drawTables();
         } else console.log('ERROR');
 

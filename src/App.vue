@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         getPerson(id) {
-            this.currPerson = persons.find((person) => person.tableId === id);
+            this.currPerson = persons.find(({ tableId }) => tableId === id);
             this.isUserOpened = true;
         },
     },
