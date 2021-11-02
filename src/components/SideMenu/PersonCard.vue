@@ -49,6 +49,7 @@ import { format } from 'date-fns';
 import IconMail from '@/components/Icons/IconMail.vue';
 import IconBio from '@/components/Icons/IconBio.vue';
 import { VTooltip } from 'v-tooltip';
+import { BIO_TOOLTIP_SHOW, BIO_TOOLTIP_HIDE } from './consts';
 export default {
     name: 'PersonCard',
     components: {
@@ -66,7 +67,7 @@ export default {
     },
     data() {
         return {
-            bioTooltip: 'Нажмите, чтобы видеть информацию о сотрудниках',
+            bioTooltip: BIO_TOOLTIP_SHOW,
             isBioOpened: false,
         };
     },
@@ -74,10 +75,9 @@ export default {
         handleBioShow() {
             this.isBioOpened = !this.isBioOpened;
             if (this.isBioOpened) {
-                this.bioTooltip = 'Нажмите, чтобы скрыть информацию';
+                this.bioTooltip = BIO_TOOLTIP_SHOW;
             } else {
-                this.bioTooltip =
-                    'Нажмите, чтобы видеть информацию о сотрудниках';
+                this.bioTooltip = BIO_TOOLTIP_HIDE;
             }
         },
     },

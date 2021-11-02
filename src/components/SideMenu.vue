@@ -113,7 +113,7 @@ export default {
                         backgroundColor: this.legend.map(
                             (legendItem) => legendItem.color
                         ),
-                        data: Object.values(this.counter).map((count) => count),
+                        data: Object.values(this.counter),
                     },
                 ],
             };
