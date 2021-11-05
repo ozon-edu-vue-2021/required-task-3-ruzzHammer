@@ -1,22 +1,36 @@
 <template>
     <div id="app">
         <div class="office">
-            <Map />
-            <SideMenu />
+            <MapComp @table="getPerson" :isUserOpened.sync="isUserOpened" />
+            <SideMenu :person="currPerson" :isUserOpened.sync="isUserOpened" />
         </div>
     </div>
 </template>
 
 <script>
-import Map from "./components/Map.vue";
-import SideMenu from "./components/SideMenu.vue";
+import MapComp from './components/MapComp.vue';
+import SideMenu from './components/SideMenu.vue';
+import persons from '@/assets/data/people.json';
 
 export default {
-  name: "App",
-  components: {
-    Map,
-    SideMenu,
-  },
+    name: 'App',
+    data() {
+        return {
+            persons: persons,
+            currPerson: null,
+            isUserOpened: false,
+        };
+    },
+    components: {
+        MapComp,
+        SideMenu,
+    },
+    methods: {
+        getPerson(id) {
+            this.currPerson = persons.find(({ tableId }) => tableId === id);
+            this.isUserOpened = true;
+        },
+    },
 };
 </script>
 
@@ -45,12 +59,13 @@ h3 {
 
 .office {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr auto;
     border-radius: 6px;
     border: 1px solid #ccd8e4;
     height: 100%;
     background: white;
     max-width: 1500px;
     margin: 0 auto;
+    transition: 0.2s ease-in;
 }
 </style>

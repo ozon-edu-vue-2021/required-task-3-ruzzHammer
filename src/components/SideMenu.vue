@@ -1,16 +1,13 @@
 <template>
-    <div class="menu">
+    <div :class="[{ 'menu--ext': isUserOpened }, 'menu']">
         <div class="toolbar">
             <div class="toolbar__header">
-                <template v-if="!isUserOpenned">
+                <template v-if="!isUserOpened">
                     <h3>Информация</h3>
                 </template>
                 <template v-else>
                     <div class="action">
-                        <div
-                            class="arrow"
-                            @click="closeProfile"
-                        ></div>
+                        <div class="arrow" @click="closeProfile"></div>
                     </div>
                     <h3>Профиль</h3>
                 </template>
@@ -18,45 +15,28 @@
             <div class="toolbar__actions"></div>
         </div>
         <div class="content">
-            <div
-                v-if="!isUserOpenned"
-                class="legend"
-            >
+            <div v-if="!isUserOpened" class="legend">
                 <div class="legend__data">
-                    <div
-                        v-if="legend.length > 0"
-                        class="legend__items"
-                    >
-                        <LegendItem
-                            v-for="(item, index) in legend"
-                            :key="index"
-                            :color="item.color"
-                            :text="item.text"
-                            :counter="item.counter"
-                            class="legend__item"
-                        />
+                    <div v-if="legend.length > 0" class="legend__items">
+                        <Draggable v-model="legend">
+                            <LegendItem
+                                v-for="(item, index) in legend"
+                                :key="index"
+                                :color="item.color"
+                                :text="item.text"
+                                :counter="counter[index]"
+                                class="legend__item"
+                            />
+                        </Draggable>
                     </div>
-                    <span
-                        v-else
-                        class="legend--empty"
-                    >
-                        Список пуст
-                    </span>
+                    <span v-else class="legend--empty"> Список пуст </span>
                 </div>
                 <div class="legend__chart">
-                    <!-- chart -->
+                    <Pie ref="chart" />
                 </div>
             </div>
-            <div
-                v-else
-                class="profile"
-            >
-                <div
-                    v-if="!person"
-                    class="profile__empty"
-                >
-                    Место пустое
-                </div>
+            <div v-else class="profile">
+                <div v-if="!person" class="profile__empty">Место пустое</div>
 
                 <PersonCard :person="person" />
             </div>
@@ -65,13 +45,17 @@
 </template>
 
 <script>
-import LegendItem from "./SideMenu/LegendItem.vue";
-import PersonCard from "./SideMenu/PersonCard.vue";
-import legend from "@/assets/data/legend.json";
+import LegendItem from './SideMenu/LegendItem.vue';
+import PersonCard from './SideMenu/PersonCard.vue';
+
+import legend from '@/assets/data/legend.json';
+import tables from '@/assets/data/tables.json';
+import Draggable from 'vuedraggable';
+import { Pie } from 'vue-chartjs';
 
 export default {
     props: {
-        isUserOpenned: {
+        isUserOpened: {
             type: Boolean,
             default: false,
         },
@@ -83,21 +67,60 @@ export default {
     components: {
         LegendItem,
         PersonCard,
+        Draggable,
+        Pie,
     },
     data() {
         return {
             legend: [],
+            counter: {},
         };
     },
     created() {
         this.loadLegend();
+        this.countTeamMembers();
+    },
+    mounted() {
+        this.makeChart();
+    },
+    updated() {
+        if (this.isUserOpened === false) {
+            this.makeChart();
+        }
     },
     methods: {
         loadLegend() {
             this.legend = legend;
         },
+        countTeamMembers() {
+            tables.forEach((table) => {
+                if (this.counter[table.group_id]) {
+                    this.counter[table.group_id]++;
+                } else {
+                    this.counter[table.group_id] = 1;
+                }
+            });
+        },
         closeProfile() {
-            this.$emit("update:isUserOpenned", false);
+            this.$emit('update:isUserOpened', false);
+        },
+        makeChart() {
+            const chartData = {
+                labels: this.legend.map((legendItem) => legendItem.text),
+                datasets: [
+                    {
+                        label: 'Легенда',
+                        backgroundColor: this.legend.map(
+                            (legendItem) => legendItem.color
+                        ),
+                        data: Object.values(this.counter),
+                    },
+                ],
+            };
+            const options = {
+                display: false,
+            };
+            this.$refs.chart.renderChart(chartData, options);
         },
     },
 };
@@ -110,6 +133,12 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 320px;
+    transition: 0.2s ease;
+}
+
+.menu--ext {
+    width: 400px;
 }
 
 .toolbar {
@@ -184,6 +213,11 @@ h3 {
 
 .content .legend .legend__items .legend__item.sortable-chosen {
     opacity: 25%;
+}
+
+.content .legend .legend__chart {
+    max-width: 270px;
+    margin: 0 auto;
 }
 
 .content .legend .legend--empty {

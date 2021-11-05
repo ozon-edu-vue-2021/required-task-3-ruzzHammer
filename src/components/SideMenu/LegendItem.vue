@@ -1,10 +1,7 @@
 <template>
     <div class="legend-item">
         <div class="legend-item__marker">
-            <div
-                class="marker"
-                :style="{ '--marker-color': color }"
-            />
+            <div class="marker" :style="{ '--marker-color': color }" />
         </div>
         <div class="legend-item__label">{{ text }}</div>
         <div class="legend-item__counter">{{ counter }}</div>
